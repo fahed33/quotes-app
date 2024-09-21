@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اقتباسات لا أنساها</title>
+    <style>
+        body {
+            background-color: gold;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #quoteInput {
+            width: 80%;
+            padding: 10px;
+            margin: 10px auto;
+            display: block;
+        }
+        #saveButton {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #savedQuotes {
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>اقتباسات لا أنساها</h1>
+</header>
+
+<textarea id="quoteInput" placeholder="اكتب اقتباسك هنا..."></textarea>
+<button id="saveButton">حفظ الاقتباس</button>
+
+<div id="savedQuotes">
+    <h2>الاقتباسات المحفوظة:</h2>
+    <ul id="quoteList"></ul>
+</div>
+
+<footer>
+    <p>by: Leena Joda</p>
+</footer>
+
+<script>
+    // استرجاع الاقتباسات المحفوظة من Local Storage
+    const quoteList = document.getElementById('quoteList');
+    const quoteInput = document.getElementById('quoteInput');
+    const saveButton = document.getElementById('saveButton');
+
+    function loadQuotes() {
+        const quotes = JSON.parse(localStorage.getItem('quotes')) || [];
+        quotes.forEach(quote => {
+            const li = document.createElement('li');
+            li.textContent = quote;
+            quoteList.appendChild(li);
+        });
+    }
+
+    function saveQuote() {
+        const quote = quoteInput.value.trim();
+        if (quote) {
+            const quotes = JSON.parse(localStorage.getItem('quotes')) || [];
+            quotes.push(quote);
+            localStorage.setItem('quotes', JSON.stringify(quotes));
+            quoteInput.value = ''; // مسح خانة الإدخال
+            loadQuotes(); // إعادة تحميل الاقتباسات
+        }
+    }
+
+    saveButton.addEventListener('click', saveQuote);
+    loadQuotes(); // تحميل الاقتباسات عند تحميل الصفحة
+</script>
+
+</body>
+</html>
